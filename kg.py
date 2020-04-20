@@ -5,6 +5,7 @@ import requests
 import spacy
 import matplotlib
 from spacy import displacy
+import numpy as np
 nlp = spacy.load('en_core_web_sm')
 
 from spacy.matcher import Matcher
@@ -118,8 +119,11 @@ pos = nx.spring_layout(G)
 nx.draw_shell(G,with_labels=True)
 print(nx.adjacency_matrix(G))
 g=nx.adjacency_data(G)
-print(g)
-print(nx.to_pandas_adjacency(G))
+# print(g)
+n=nx.to_numpy_matrix(G)
+print(n)
+# print(nx.to_pandas_adjacency(G))
+np.savetxt("AM.txt",n,delimiter=",",newline="\n",fmt="%d")
 plt.show()
 
 
