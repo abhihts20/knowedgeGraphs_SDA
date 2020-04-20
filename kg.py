@@ -117,8 +117,9 @@ pos = nx.spring_layout(G)
 # nx.draw_networkx(G, with_labels=True, node_color='skyblue', edge_cmap=plt.cm.Blues, pos = pos,node_size=400,font_size=15,node_shape='o')
 nx.draw_shell(G,with_labels=True)
 print(nx.adjacency_matrix(G))
+g=nx.adjacency_data(G)
+print(g)
 print(nx.to_pandas_adjacency(G))
-print(nx.to_edgelist(G))
 plt.show()
 
 
