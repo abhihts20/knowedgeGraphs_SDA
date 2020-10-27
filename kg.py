@@ -7,6 +7,8 @@ import spacy
 import matplotlib
 from spacy import displacy
 import numpy as np
+import xlwt
+from xlwt import Workbook
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -20,16 +22,14 @@ from tqdm import tqdm
 
 pd.set_option('display.max_colwidth', 200)
 
-candidate_sentences = pd.read_csv("D:\\tech_title.csv", encoding='unicode_escape')
+candidate_sentences = pd.read_csv("restech07.csv", encoding='unicode_escape')
 candidate_sentences.shape
 print(candidate_sentences['content'].sample(5))
-
 
 def get_entities(sent):
     ## chunk 1
     ent1 = ""
     ent2 = ""
-
     prv_tok_dep = ""  # dependency tag of previous token in the sentence
     prv_tok_text = ""  # previous token in the sentence
 
@@ -123,16 +123,32 @@ G = nx.from_pandas_edgelist(kg_df, "source", "target",
 plt.figure(figsize=(16, 16))
 pos = nx.spring_layout(G)
 # nx.draw_networkx(G, with_labels=True, node_color='skyblue', edge_cmap=plt.cm.Blues, pos = pos,node_size=400,font_size=15,node_shape='o')
-nx.draw_shell(G, with_labels=True)
+nx.draw_networkx(G,with_labels=True)
 print(nx.adjacency_matrix(G))
 g = nx.adjacency_data(G)
 # print(g)
 n = nx.to_numpy_matrix(G)
 l = nx.to_dict_of_lists(G)
 print(l)
+print(100*"==")
 print(nx.to_dict_of_dicts(G))
-edgeList = nx.to_edgelist(G)
+print(100*"==")
+edgeList = nx.convert.to_edgelist(G)
 print(edgeList)
+with open("data_one.csv","a") as datafile:
+    writer = csv.writer(datafile)
+    for i in edgeList:
+        writer.writerow(i)
+
+print(100*"==")
+pandasEdgeList=nx.convert_matrix.to_pandas_edgelist(G)
+print(pandasEdgeList)
+print(100*"==")
+pandasAdjacencyMatrix=nx.convert_matrix.to_pandas_adjacency(G)
+print(pandasAdjacencyMatrix)
+print(100*"==")
+scipySparsemtrix=nx.convert_matrix.to_scipy_sparse_matrix(G)
+print(scipySparsemtrix)
 # with open("data.csv","a",encoding='unicode_escape') as datafile:
 #     writer=csv.writer(datafile)
 #     for i in edgeList:
